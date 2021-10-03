@@ -1,12 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap");
-* {
-  box-sizing: border-box;
-}
-*::before, *::after {
-  box-sizing: border-box;
-}
+@use "./abstracts/" as *;
+@use "sass:map";
+
+@include box-size();
 
 .App {
+  background-color: map.get($colors, 100);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -14,11 +12,11 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
-.App .header {
-  background-image: url("../images/bg-desktop-dark.jpg");
-}
 
+  & .header {
+    background-image: url("../images/bg-desktop-dark.jpg");
+  }
+}
 .visually-hidden {
   position: absolute !important;
   height: 1px;
@@ -28,5 +26,3 @@
   clip: rect(1px, 1px, 1px, 1px);
   white-space: nowrap;
 }
-
-/*# sourceMappingURL=App.css.map */
