@@ -2,19 +2,235 @@
 @use "sass:map";
 
 @include box-size();
+$ff: map.get($fonts, ff);
+$listBG: map.get($dark, 500);
 
-.App {
-  background-color: map.get($colors, 100);
-  min-height: 100vh;
+main {
+  background-image: url("../images/bg-desktop-dark.jpg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: map.get($dark, 600);
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  width: 100%;
+  max-width: 100vw;
+  left: 0;
+  top: 0;
+  margin: 0;
+  padding: 2em;
+}
+.App {
+  font-family: $ff;
+  //   background-color: map.get($dark, 600);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 80%;
+  max-width: 585px;
+  //   width8 fit-content;
+  justify-content: flex-start;
   font-size: calc(10px + 2vmin);
   color: white;
+  //   position: absolute;
+  margin: 0;
+  padding: 0;
 
   & .header {
-    background-image: url("../images/bg-desktop-dark.jpg");
+    padding-block: 1.2rem;
+    background-color: transparent;
+    letter-spacing: 1rem;
+    font-size: 2.3rem;
+  }
+  & .new__todo {
+    width: 100%;
+    background-color: map.get($dark, 500);
+    margin-bottom: 1rem;
+    & input {
+      width: 100%;
+      background-color: map.get($dark, 500);
+      border: none;
+      outline: none;
+      padding: 1rem;
+      color: white;
+      font-family: $ff;
+    }
+  }
+}
+.list__container {
+  background-color: map.get($dark, 500);
+  width: 100%;
+  color: map.get($dark, 100);
+  padding-inline: 1rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  & label {
+    display: inline-flex;
+    position: relative;
+    align-items: center;
+    transition: color 300ms ease-in-out;
+  }
+  & label::after {
+    content: "";
+    position: absolute;
+    left: 4.5rem;
+    right: 0;
+    top: 45%;
+    height: 3px;
+    background: map.get($dark, 200);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 500ms ease-out;
+  }
+
+  & .todo__item {
+    width: calc(100% + 2rem);
+    left: -1rem;
+    list-style-type: none;
+    height: 2.5em;
+    position: relative;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      padding: 0;
+      width: 100%;
+      border-bottom: 1px solid map.get($dark, 400);
+    }
+
+    &:hover .custom__checkbox,
+    :focus .custom__checkbox {
+      transform: scale(1.2);
+      transition: transform 300ms ease-in-out;
+    }
+    &:hover .custom__checkbox::before,
+    :focus .custom__checkbox::before {
+      transition: opacity 300ms ease-in-out;
+      opacity: 1;
+    }
+  }
+  & [type="checkbox"] {
+    opacity: 0;
+    position: absolute;
+    cursor: pointer;
+
+    &:focus + label .custom__checkbox {
+      transform: scale(1.2);
+      transition: transform 300ms ease-in-out;
+    }
+
+    &:focus + label .custom__checkbox::before {
+      transition: opacity 300ms ease-in-out;
+      opacity: 1;
+    }
+
+    &:checked + label .custom__checkbox::after {
+      transition: opacity 300ms 1s ease-in-out;
+      opacity: 1;
+    }
+    &:checked + label {
+      transition: color 300ms ease-in-out;
+      color: map.get($dark, 300);
+    }
+    &:checked + label::after {
+      transition: transform 500ms 300ms ease-in;
+      transform: scaleX(1.1);
+      transform-origin: left;
+    }
+  }
+  & .custom__checkbox {
+    --size: 1.5rem;
+    display: inline-block;
+    position: relative;
+    width: var(--size);
+    height: var(--size);
+    cursor: pointer;
+    border: 1px solid map.get($dark, 400);
+    border-radius: 50%;
+    margin-inline: var(--size);
+    transform: scale(1);
+    transition: transform 300ms 1s ease-in-out, opacity 300ms 1s ease-in-out;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient($listBG, $listBG) padding-box,
+        map.get($colors, Check_Bg) border-box;
+      border-radius: 50em;
+      border: 2px solid transparent;
+      transition: opacity 300ms ease-in-out;
+      opacity: 0;
+    }
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: center / 0.6rem no-repeat url("../images/icon-check.svg"),
+        map.get($colors, Check_Bg);
+      border-radius: 50em;
+
+      transition: opacity 300ms ease-in-out;
+      opacity: 0;
+    }
+  }
+}
+
+.controls {
+  display: grid;
+  grid-template-columns:
+    max-content minmax(3rem, 1fr) max-content minmax(3rem, 1fr)
+    max-content;
+  color: map.get($dark, 200);
+  align-items: center;
+  justify-items: center;
+
+  & button:nth-of-type(1) {
+    justify-self: flex-end;
+  }
+  & button:nth-of-type(2) {
+    justify-self: flex-end;
+    padding: 0.5rem;
+  }
+  & button:nth-of-type(3) {
+    justify-self: flex-start;
+  }
+  & .btn {
+    background: none;
+    border: none;
+    outline: none;
+    color: map.get($dark, 200);
+    font-family: $ff;
+    &.filter--btn {
+      font-weight: map.get($fonts, bold);
+
+      &[aria-pressed="true"] {
+        color: map.get($colors, blue);
+      }
+    }
+    cursor: pointer;
+  }
+  & .items__left {
+    font-size: 0.7rem;
+    padding-left: 1rem;
+    padding-block: 1rem;
+    align-self: center;
+    justify-self: center;
   }
 }
 .visually-hidden {

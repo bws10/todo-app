@@ -40,12 +40,20 @@ export default function App() {
   }
 
   return (
-    <div className="App">
-      <h1 className="header">TODO</h1>
-      <form className="new__todo" onSubmit={handleNewTodo}>
-        <input ref={todoNameRef} type="text" placeholder="Create new todo" />
-      </form>
-      <TodoList todos={todos} setTodos={setTodos} toggleTodo={toggleTodo} />
-    </div>
+    <main>
+      <div className="App">
+        <h1 className="header">TODO</h1>
+        <form className="new__todo" onSubmit={handleNewTodo}>
+          <input
+            ref={todoNameRef}
+            type="text"
+            placeholder="Create a new todo..."
+          />
+        </form>
+        <div className="list__container">
+          <TodoList todos={todos} setTodos={setTodos} toggleTodo={toggleTodo} />
+        </div>
+      </div>
+    </main>
   );
 }

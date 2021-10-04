@@ -28,22 +28,26 @@ export default function TodoList({ todos, toggleTodo, setTodos }) {
 
   return (
     <>
-      <ul>
-        {todos.filter(FILTER_MAP[filter]).map((todo) => {
-          return (
-            <li key={todo.id}>
-              <Todo todo={todo} toggleTodo={toggleTodo} setTodos={setTodos} />
-            </li>
-          );
-        })}
-      </ul>
-      <div className="items__left">
-        {todos.filter((todo) => !todo.complete).length} items left
+      {todos.filter(FILTER_MAP[filter]).map((todo) => {
+        return (
+          <Todo
+            key={todo.id}
+            todo={todo}
+            toggleTodo={toggleTodo}
+            setTodos={setTodos}
+          />
+        );
+      })}
+
+      <div className="controls">
+        <div className="items__left">
+          {todos.filter((todo) => !todo.complete).length} items left
+        </div>
+        {filterList}
+        <button className="btn btn__clear" onClick={handleClearCompleted}>
+          Clear Completed
+        </button>
       </div>
-      {filterList}
-      <button className="btn__clear" onClick={handleClearCompleted}>
-        Clear Completed
-      </button>
     </>
   );
 }
