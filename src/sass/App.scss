@@ -4,6 +4,9 @@
 @include box-size();
 $ff: map.get($fonts, ff);
 $listBG: map.get($dark, 500);
+:root {
+  --size: 1.2rem;
+}
 
 main {
   background-image: url("../images/bg-desktop-dark.jpg");
@@ -46,29 +49,58 @@ main {
   }
   & .new__todo {
     width: 100%;
-    background-color: map.get($dark, 500);
+    background-color: transparent;
     margin-bottom: 1rem;
+
+    display: flex;
+    &:focus-within #newCheck {
+      transform: scale(1.2);
+      transition: transform 300ms ease-in-out;
+    }
+    &:focus-within #newCheck::before {
+      transition: opacity 300ms ease-in-out;
+      opacity: 1;
+    }
+    & .input__div {
+      display: inline-flex;
+      background-color: map.get($dark, 500);
+      border-radius: 5px;
+      position: relative;
+      align-items: center;
+      width: 100%;
+      transform: scale(1);
+      transition: transform 200ms ease-in-out;
+
+      &:hover .custom__checkbox,
+      :focus .custom__checkbox {
+        transform: scale(1.2);
+        transition: transform 300ms ease-in-out;
+      }
+      &:hover .custom__checkbox::before,
+      :focus .custom__checkbox::before {
+        transition: opacity 300ms ease-in-out;
+        opacity: 1;
+      }
+    }
     & input {
       width: 100%;
-      background-color: map.get($dark, 500);
+      background-color: transparent;
       border: none;
       outline: none;
       padding: 1rem;
       color: white;
       font-family: $ff;
-      transform: scale(1);
-      transition: transform 200ms ease-in-out;
+      transition: color 200ms ease-in-out;
+      color: map.get($dark, 200);
 
       &:focus {
-        transform: scale(1.1);
-        transition: transform 200ms ease-in-out;
+        color: map.get($dark, hover);
+        transition: color 200ms ease-in-out;
       }
     }
   }
 }
 .list__container {
-  --size: 1.2rem;
-
   background-color: map.get($dark, 500);
   width: 100%;
   color: map.get($dark, 100);
@@ -157,97 +189,55 @@ main {
       transform-origin: left;
     }
   }
-  & .custom__checkbox {
-    display: inline-block;
-    position: relative;
-    width: var(--size);
-    height: var(--size);
-    cursor: pointer;
-    border: 1px solid map.get($dark, 400);
-    border-radius: 50%;
-    margin-inline: var(--size);
-    transform: scale(1);
-    transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+}
+.controls {
+  display: grid;
+  grid-template-columns:
+    max-content minmax(3rem, 1fr) max-content minmax(3rem, 1fr)
+    max-content;
+  color: map.get($dark, 200);
+  align-items: center;
+  justify-items: center;
 
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient($listBG, $listBG) padding-box,
-        map.get($colors, Check_Bg) border-box;
-      border-radius: 50em;
-      border: 2px solid transparent;
-      transition: opacity 300ms ease-in-out;
-      opacity: 0;
-    }
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: center / 0.6rem no-repeat url("../images/icon-check.svg"),
-        map.get($colors, Check_Bg);
-      border-radius: 50em;
-
-      transition: opacity 300ms ease-in-out;
-      opacity: 0;
-    }
+  & button:nth-of-type(1) {
+    justify-self: flex-end;
   }
-  & .controls {
-    display: grid;
-    grid-template-columns:
-      max-content minmax(3rem, 1fr) max-content minmax(3rem, 1fr)
-      max-content;
+  & button:nth-of-type(2) {
+    justify-self: flex-end;
+    padding: 0.5rem;
+  }
+  & button:nth-of-type(3) {
+    justify-self: flex-start;
+  }
+  & .btn {
+    background: none;
+    border: none;
+    outline: none;
     color: map.get($dark, 200);
-    align-items: center;
-    justify-items: center;
-
-    & button:nth-of-type(1) {
-      justify-self: flex-end;
-    }
-    & button:nth-of-type(2) {
-      justify-self: flex-end;
-      padding: 0.5rem;
-    }
-    & button:nth-of-type(3) {
-      justify-self: flex-start;
-    }
-    & .btn {
-      background: none;
-      border: none;
-      outline: none;
-      color: map.get($dark, 200);
-      font-family: $ff;
+    font-family: $ff;
+    transition: color 300ms ease-in-out;
+    &:hover {
+      color: map.get($dark, hover);
       transition: color 300ms ease-in-out;
-      &:hover {
-        color: map.get($dark, 100);
-        transition: color 300ms ease-in-out;
-      }
-
-      &.filter--btn {
-        font-weight: map.get($fonts, bold);
-
-        &[aria-pressed="true"] {
-          color: map.get($colors, blue);
-        }
-      }
-      cursor: pointer;
     }
-    & .items__left {
-      font-size: 0.7rem;
-      // margin-left: var(--size);
-      padding-block: 1rem;
-      align-self: center;
-      justify-self: center;
+
+    &.filter--btn {
+      font-weight: map.get($fonts, bold);
+
+      &[aria-pressed="true"] {
+        color: map.get($colors, blue);
+      }
     }
+    cursor: pointer;
+  }
+  & .items__left {
+    font-size: 0.7rem;
+    // margin-left: var(--size);
+    padding-block: 1rem;
+    align-self: center;
+    justify-self: center;
   }
 }
-
 .visually-hidden {
   position: absolute !important;
   height: 1px;
@@ -256,4 +246,83 @@ main {
   clip: rect(1px 1px 1px 1px);
   clip: rect(1px, 1px, 1px, 1px);
   white-space: nowrap;
+}
+
+.custom__checkbox {
+  display: inline-block;
+  flex-shrink: 0;
+
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  cursor: pointer;
+  border: 1px solid map.get($dark, 400);
+  border-radius: 50%;
+  margin-inline: var(--size);
+  transform: scale(1);
+  transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient($listBG, $listBG) padding-box,
+      map.get($colors, Check_Bg) border-box;
+    border-radius: 50em;
+    border: 2px solid transparent;
+    transition: opacity 300ms ease-in-out;
+    opacity: 0;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: center / 0.6rem no-repeat url("../images/icon-check.svg"),
+      map.get($colors, Check_Bg);
+    border-radius: 50em;
+
+    transition: opacity 300ms ease-in-out;
+    opacity: 0;
+  }
+}
+
+@include mq(medium) {
+  main {
+    background-image: url("../images/bg-mobile-dark.jpg");
+  }
+
+  .App {
+    width: 100%;
+    & .header {
+      margin-top: 0;
+      padding-top: 0;
+      font-size: 2rem;
+    }
+
+    & .list__container {
+      border-radius: 5px;
+    }
+    & .filters {
+      display: inline-flex;
+      background-color: map.get($dark, 500);
+      border-radius: 5px;
+      position: relative;
+      align-items: center;
+      justify-content: space-evenly;
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.7em;
+    }
+  }
+  .btn--clear {
+    grid-column: -5/-1;
+    font-size: 0.8rem;
+    // order: 2;
+  }
 }

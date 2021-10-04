@@ -6,6 +6,10 @@
   box-sizing: border-box;
 }
 
+:root {
+  --size: 1.2rem;
+}
+
 main {
   background-image: url("../images/bg-desktop-dark.jpg");
   background-repeat: no-repeat;
@@ -45,27 +49,55 @@ main {
 }
 .App .new__todo {
   width: 100%;
-  background-color: #25273c;
+  background-color: transparent;
   margin-bottom: 1rem;
+  display: flex;
+}
+.App .new__todo:focus-within #newCheck {
+  transform: scale(1.2);
+  transition: transform 300ms ease-in-out;
+}
+.App .new__todo:focus-within #newCheck::before {
+  transition: opacity 300ms ease-in-out;
+  opacity: 1;
+}
+.App .new__todo .input__div {
+  display: inline-flex;
+  background-color: #25273c;
+  border-radius: 5px;
+  position: relative;
+  align-items: center;
+  width: 100%;
+  transform: scale(1);
+  transition: transform 200ms ease-in-out;
+}
+.App .new__todo .input__div:hover .custom__checkbox,
+.App .new__todo .input__div :focus .custom__checkbox {
+  transform: scale(1.2);
+  transition: transform 300ms ease-in-out;
+}
+.App .new__todo .input__div:hover .custom__checkbox::before,
+.App .new__todo .input__div :focus .custom__checkbox::before {
+  transition: opacity 300ms ease-in-out;
+  opacity: 1;
 }
 .App .new__todo input {
   width: 100%;
-  background-color: #25273c;
+  background-color: transparent;
   border: none;
   outline: none;
   padding: 1rem;
   color: white;
   font-family: 'Josefin Sans', sans-Serif;
-  transform: scale(1);
-  transition: transform 200ms ease-in-out;
+  transition: color 200ms ease-in-out;
+  color: #777a92;
 }
 .App .new__todo input:focus {
-  transform: scale(1.1);
-  transition: transform 200ms ease-in-out;
+  color: #e4e5f1;
+  transition: color 200ms ease-in-out;
 }
 
 .list__container {
-  --size: 1.2rem;
   background-color: #25273c;
   width: 100%;
   color: #cacde8;
@@ -149,61 +181,25 @@ main {
   transform: scaleX(1.1);
   transform-origin: left;
 }
-.list__container .custom__checkbox {
-  display: inline-block;
-  position: relative;
-  width: var(--size);
-  height: var(--size);
-  cursor: pointer;
-  border: 1px solid #393a4c;
-  border-radius: 50%;
-  margin-inline: var(--size);
-  transform: scale(1);
-  transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
-}
-.list__container .custom__checkbox::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(#25273c, #25273c) padding-box, linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%)) border-box;
-  border-radius: 50em;
-  border: 2px solid transparent;
-  transition: opacity 300ms ease-in-out;
-  opacity: 0;
-}
-.list__container .custom__checkbox::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: center/0.6rem no-repeat url("../images/icon-check.svg"), linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%));
-  border-radius: 50em;
-  transition: opacity 300ms ease-in-out;
-  opacity: 0;
-}
-.list__container .controls {
+
+.controls {
   display: grid;
   grid-template-columns: max-content minmax(3rem, 1fr) max-content minmax(3rem, 1fr) max-content;
   color: #777a92;
   align-items: center;
   justify-items: center;
 }
-.list__container .controls button:nth-of-type(1) {
+.controls button:nth-of-type(1) {
   justify-self: flex-end;
 }
-.list__container .controls button:nth-of-type(2) {
+.controls button:nth-of-type(2) {
   justify-self: flex-end;
   padding: 0.5rem;
 }
-.list__container .controls button:nth-of-type(3) {
+.controls button:nth-of-type(3) {
   justify-self: flex-start;
 }
-.list__container .controls .btn {
+.controls .btn {
   background: none;
   border: none;
   outline: none;
@@ -212,17 +208,17 @@ main {
   transition: color 300ms ease-in-out;
   cursor: pointer;
 }
-.list__container .controls .btn:hover {
-  color: #cacde8;
+.controls .btn:hover {
+  color: #e4e5f1;
   transition: color 300ms ease-in-out;
 }
-.list__container .controls .btn.filter--btn {
+.controls .btn.filter--btn {
   font-weight: 700;
 }
-.list__container .controls .btn.filter--btn[aria-pressed=true] {
+.controls .btn.filter--btn[aria-pressed=true] {
   color: #3a7bfd;
 }
-.list__container .controls .items__left {
+.controls .items__left {
   font-size: 0.7rem;
   padding-block: 1rem;
   align-self: center;
@@ -237,6 +233,79 @@ main {
   clip: rect(1px 1px 1px 1px);
   clip: rect(1px, 1px, 1px, 1px);
   white-space: nowrap;
+}
+
+.custom__checkbox {
+  display: inline-block;
+  flex-shrink: 0;
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  cursor: pointer;
+  border: 1px solid #393a4c;
+  border-radius: 50%;
+  margin-inline: var(--size);
+  transform: scale(1);
+  transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+}
+.custom__checkbox::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(#25273c, #25273c) padding-box, linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%)) border-box;
+  border-radius: 50em;
+  border: 2px solid transparent;
+  transition: opacity 300ms ease-in-out;
+  opacity: 0;
+}
+.custom__checkbox::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: center/0.6rem no-repeat url("../images/icon-check.svg"), linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+  border-radius: 50em;
+  transition: opacity 300ms ease-in-out;
+  opacity: 0;
+}
+
+@media only screen and (max-width: 685px) {
+  main {
+    background-image: url("../images/bg-mobile-dark.jpg");
+  }
+
+  .App {
+    width: 100%;
+  }
+  .App .header {
+    margin-top: 0;
+    padding-top: 0;
+    font-size: 2rem;
+  }
+  .App .list__container {
+    border-radius: 5px;
+  }
+  .App .filters {
+    display: inline-flex;
+    background-color: #25273c;
+    border-radius: 5px;
+    position: relative;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.7em;
+  }
+
+  .btn--clear {
+    grid-column: -5/-1;
+    font-size: 0.8rem;
+  }
 }
 
 /*# sourceMappingURL=App.css.map */

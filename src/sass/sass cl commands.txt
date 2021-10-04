@@ -1,0 +1,1 @@
+sass -w src/sass/App.scss:src/css/App.css
