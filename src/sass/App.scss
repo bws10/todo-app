@@ -112,7 +112,7 @@ main {
     display: inline-flex;
     position: relative;
     align-items: center;
-    transition: color 300ms ease-in-out;
+    transition: color 300ms 300ms ease-in-out;
     cursor: pointer;
   }
   & label::after {
@@ -122,10 +122,11 @@ main {
     right: 0;
     top: 45%;
     height: 2px;
+    opacity: 0.3;
     background: map.get($dark, 200);
     transform: scaleX(0);
     transform-origin: right;
-    transition: transform 500ms ease-out;
+    transition: transform 300ms ease-out;
   }
 
   & .todo__item {
