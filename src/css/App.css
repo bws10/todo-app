@@ -136,6 +136,7 @@ main {
   display: flex;
   align-items: center;
   cursor: pointer;
+  -webkit-user-drag: element;
 }
 .list__container .todo__item::before {
   content: "";

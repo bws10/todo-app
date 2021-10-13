@@ -139,6 +139,7 @@ main {
     display: flex;
     align-items: center;
     cursor: pointer;
+    -webkit-user-drag: element;
 
     &::before {
       content: "";

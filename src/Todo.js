@@ -7,7 +7,7 @@ export default function Todo(props) {
   return (
     <div
       onClick={handleTodoCheck}
-      draggable
+      draggable="true"
       key={props.todo.id}
       onDragStart={(e) => props.handletDragStart(e, props.todoI)}
       onDragEnter={
